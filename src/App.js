@@ -1,25 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import Match from "./Components/match/Match";
 
-function App() {
+const App = () => {
+  const [showMatch, setShowMatch] = useState(false);
+  const [nameTeamA, setNameTeamA] = useState("");
+  const [nameTeamB, setNameTeamB] = useState("");
+
+  const changeNameHandlerA = (event) => {
+    setNameTeamA(event.target.value);
+  };
+
+  const changeNameHandlerB = (event) => {
+    setNameTeamB(event.target.value);
+  };
+
+  const showMatchHandler = () => {
+    if (nameTeamA !== "" && nameTeamB !== "") {
+      setShowMatch(!showMatch);
+    } else {
+      alert("Complete los campos");
+    }
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {showMatch === false && (
+        <div>
+          <label>Ingrese nombre equipo 1</label>
+          <input type="text" onChange={changeNameHandlerA} />
+          <br />
+          <label>Ingrese nombre equipo 2 </label>
+          <input type="text" onChange={changeNameHandlerB} />
+          <br />
+          <button type="button" onClick={showMatchHandler}>
+            Iniciar Partida
+          </button>
+        </div>
+      )}
+      {showMatch === true && (
+        <Match nameTeamA={nameTeamA} nameTeamB={nameTeamB} />
+      )}
+      {showMatch === true && (
+        <button type="button" onClick={showMatchHandler}>
+          Terminar partida
+        </button>
+      )}
     </div>
   );
-}
+};
 
 export default App;
